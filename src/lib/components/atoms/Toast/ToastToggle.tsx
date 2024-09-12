@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import type { ComponentProps, FC } from 'react';
 import { HiX } from 'react-icons/hi';
 import { useTheme } from '../../bosons/HelloInternet/ThemeContext';
@@ -9,7 +10,7 @@ type ToastToggleProps = ComponentProps<'button'> & {
 
 export const ToastToggle: FC<ToastToggleProps> = ({ xIcon: XIcon = HiX }) => {
   const { duration, isClosed, isRemoved, setIsClosed, setIsRemoved } = useToastContext();
-  const theme = useTheme().theme.toast.toggle;
+  const theme = useTheme().theme.toast;
 
   const handleClick = () => {
     setIsClosed(!isClosed);
@@ -17,8 +18,13 @@ export const ToastToggle: FC<ToastToggleProps> = ({ xIcon: XIcon = HiX }) => {
   };
 
   return (
-    <button aria-label="Close" onClick={handleClick} type="button" className={theme.base}>
-      <XIcon className={theme.icon} />
+    <button
+      aria-label="Close"
+      onClick={handleClick}
+      type="button"
+      className={classNames('-mx-1.5 -my-1.5 ml-auto inline-flex h-8 w-8 p-1.5', theme.toggle)}
+    >
+      <XIcon className="h-5 w-5 shrink-0" />
     </button>
   );
 };

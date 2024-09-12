@@ -1,12 +1,12 @@
 import classNames from 'classnames';
-import type { ComponentProps, FC, PropsWithChildren } from 'react';
+import type { FC } from 'react';
 import { useState } from 'react';
-import { excludeClassName } from '../../../helpers/exclude';
 import { useTheme } from '../../bosons/HelloInternet/ThemeContext';
 import type { Duration } from './ToastContext';
 import { ToastContext } from './ToastContext';
 
-export interface ToastProps extends PropsWithChildren<Omit<ComponentProps<'div'>, 'className'>> {
+export interface ToastProps {
+  children?: React.ReactNode;
   duration?: Duration;
 }
 
@@ -21,24 +21,23 @@ const durationClasses: Record<Duration, string> = {
   1000: 'duration-1000'
 };
 
-export const Toast: FC<ToastProps> = ({ children, duration = 300, ...props }) => {
+export const Toast: FC<ToastProps> = ({ children, duration = 300 }) => {
   const [isClosed, setIsClosed] = useState(false);
   const [isRemoved, setIsRemoved] = useState(false);
 
   const theme = useTheme().theme.toast;
-  const theirProps = excludeClassName(props);
 
   return (
     <ToastContext.Provider value={{ duration, isClosed, isRemoved, setIsClosed, setIsRemoved }}>
       <div
-        data-testid="flowbite-toast"
+        data-testid="sui-toast"
         className={classNames(
+          'flex w-full max-w-xs items-center p-4',
           theme.base,
           durationClasses[duration],
-          { [theme.closed]: isClosed },
-          { [theme.removed]: isRemoved }
+          isClosed && 'opacity-0 ease-out',
+          isRemoved && 'hidden'
         )}
-        {...theirProps}
       >
         {children}
       </div>

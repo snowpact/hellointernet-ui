@@ -21,4 +21,4 @@ describe.concurrent('Components / Toast', () => {
   });
 });
 
-const toast = () => screen.getByTestId('flowbite-toast');
+const toast = () => screen.getByTestId('sui-toast');
